@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlexiChat · Guía de Inputs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0F12;
+  --surface:#151820;
+  --surface2:#1C2130;
+  --surface3:#232840;
+  --border:#252D40;
+  --border2:#2E3850;
+  --amber:#F59E0B;
+  --amber-dim:#D97706;
+  --amber-glow:rgba(245,158,11,.12);
+  --amber-glow2:rgba(245,158,11,.06);
+  --text:#E8EAF0;
+  --text-sec:#8A90A8;
+  --text-dim:#555E7A;
+  --green:#22C55E;
+  --green-glow:rgba(34,197,94,.1);
+  --blue:#3B82F6;
+  --blue-glow:rgba(59,130,246,.1);
+  --pink:#EC4899;
+  --pink-glow:rgba(236,72,153,.1);
+  --cyan:#06B6D4;
+  --cyan-glow:rgba(6,182,212,.1);
+  --violet:#8B5CF6;
+  --violet-glow:rgba(139,92,246,.1);
+  --orange:#F97316;
+  --orange-glow:rgba(249,115,22,.1);
+  --rose:#F43F5E;
+  --rose-glow:rgba(244,63,94,.1);
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:18px;
+  --r-xl:24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,15,18,.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:58px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{
+  width:30px;height:30px;border-radius:8px;
+  background:var(--amber);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:#0D0F12;stroke-width:2.2;stroke-linecap:round}
+.nav-logo span{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.nav-section{font-size:12px;color:var(--text-dim);border-left:1px solid var(--border);padding-left:12px;margin-left:4px}
+.nav-pills{display:flex;gap:4px;flex-wrap:wrap}
+.nav-pill{
+  font-size:11px;font-weight:600;color:var(--text-sec);
+  padding:4px 10px;border-radius:20px;
+  text-decoration:none;
+  transition:all .15s;
+}
+.nav-pill:hover{color:var(--amber);background:var(--amber-glow)}
+.nav-pill.active{color:var(--amber);background:var(--amber-glow)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  max-width:960px;margin:0 auto;
+  padding:80px 2rem 64px;
+  text-align:center;
+  z-index:1;
+}
+.hero-glow{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(245,158,11,.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(245,158,11,.3);
+  padding:5px 14px;border-radius:20px;
+  margin-bottom:24px;
+  background:var(--amber-glow2);
+}
+.hero h1{
+  font-size:clamp(2rem,5vw,3.4rem);
+  font-weight:800;
+  letter-spacing:-.05em;
+  line-height:1.08;
+  margin-bottom:20px;
+}
+.hero h1 .line2{
+  color:var(--amber);
+  display:block;
+}
+.hero-sub{
+  font-size:1rem;color:var(--text-sec);
+  max-width:520px;margin:0 auto 48px;
+  font-weight:400;line-height:1.7;
+}
+/* grid of 8 input chips in hero */
+.hero-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;max-width:600px;margin:0 auto;
+}
+.hero-chip{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  font-size:12px;font-weight:600;color:var(--text-sec);
+  transition:all .2s;
+  text-decoration:none;
+}
+.hero-chip:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-glow2)}
+.hero-chip svg{width:14px;height:14px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── HERO VIDEO ── */
+.hero-video-container {
+  max-width: 1000px;
+  margin: 0 auto 80px;
+  padding: 0 2rem;
+  position: relative;
+}
+.video-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -45%);
+  width: 85%; height: 75%;
+  background: linear-gradient(135deg, var(--blue-500), var(--purple-500));
+  filter: blur(80px);
+  opacity: 0.2;
+  z-index: -1;
+  transition: opacity 0.5s ease;
+}
+.hero-video-container:hover .video-glow {
+  opacity: 0.35;
+}
+.video-frame {
+  background: #000;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 
+    0 25px 50px -12px rgba(0,0,0,0.25),
+    0 0 0 1px rgba(255,255,255,0.1) inset;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--gray-200);
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+}
+.video-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 35px 70px -15px rgba(0,0,0,0.3);
+}
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-badge {
+  position: absolute;
+  top: 20px; left: 20px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; gap: 6px;
+}
+.video-badge span {
+  width: 6px; height: 6px;
+  background: #ff4b4b;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff4b4b;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+/* ── SECTION ── */
+.section{
+  max-width:960px;margin:0 auto 48px;padding:0 2rem;
+  position:relative;z-index:1;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.section.visible{opacity:1;transform:none}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--border2)}
+
+/* card top bar with accent */
+.card-top{
+  display:flex;align-items:flex-start;gap:18px;
+  padding:28px 32px;
+  position:relative;overflow:hidden;
+}
+.card-top::after{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+}
+.card-top .bg-glow{
+  position:absolute;right:-60px;top:-60px;
+  width:220px;height:220px;border-radius:50%;
+  pointer-events:none;
+}
+.icon-box{
+  width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.icon-box svg{width:22px;height:22px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card-meta{}
+.input-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;margin-bottom:8px;
+  font-family:'JetBrains Mono',monospace;
+}
+.card-meta h2{
+  font-size:1.35rem;font-weight:800;letter-spacing:-.04em;margin-bottom:5px;
+}
+.card-meta p{font-size:13px;color:var(--text-sec);font-weight:400}
+
+/* card body */
+.card-body{
+  padding:0 32px 32px;
+  border-top:1px solid var(--border);
+}
+.desc-block{
+  font-size:14px;color:var(--text-sec);line-height:1.75;
+  padding:18px 20px;
+  border-radius:var(--r-md);
+  border-left:3px solid;
+  margin:24px 0 22px;
+}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.info-box{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  padding:16px 18px;
+}
+.info-box h3{
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+.info-box h3 svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.info-box ul{list-style:none}
+.info-box ul li{
+  font-size:13px;color:var(--text-sec);
+  padding:4px 0;
+  display:flex;align-items:flex-start;gap:8px;
+  line-height:1.45;
+  border-bottom:1px solid var(--border);
+}
+.info-box ul li:last-child{border-bottom:none}
+.li-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+
+/* steps */
+.steps-title{
+  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:14px;
+}
+.steps-list{margin-bottom:20px}
+.step-row{display:flex;gap:14px;position:relative}
+.step-row:not(:last-child)::after{
+  content:'';position:absolute;left:16px;top:34px;
+  width:1px;bottom:-4px;background:var(--border);
+}
+.step-num{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+  flex-shrink:0;margin-top:1px;
+  position:relative;z-index:1;
+  font-family:'JetBrains Mono',monospace;
+}
+.step-content{padding:5px 0 22px}
+.step-content h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.step-content p{font-size:13px;color:var(--text-sec);line-height:1.6}
+.step-content code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  background:var(--surface3);
+  padding:2px 7px;border-radius:4px;
+  color:var(--amber);
+}
+
+/* callouts */
+.tip{
+  display:flex;gap:12px;
+  padding:14px 17px;
+  background:rgba(34,197,94,.07);
+  border:1px solid rgba(34,197,94,.2);
+  border-radius:var(--r-md);
+  font-size:13px;color:rgba(134,239,172,.9);
+  line-height:1.6;margin-bottom:20px;
+}
+.tip svg{width:15px;height:15px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:2px}
+.warn{
+  display:flex;gap:12px;
+  padding:14px 17px;
+  background:rgba(245,158,11,.07);
+  border:1px solid rgba(245,158,11,.25);
+  border-radius:var(--r-md);
+  font-size:13px;color:rgba(253,211,77,.9);
+  line-height:1.6;margin-bottom:20px;
+}
+.warn svg{width:15px;height:15px;fill:none;stroke:var(--amber);stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:2px}
+
+/* limit badges */
+.limits{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.limit-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;
+  padding:6px 12px;border-radius:20px;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text-sec);
+  font-family:'JetBrains Mono',monospace;
+}
+.limit-badge span{font-weight:700}
+
+/* preview chat */
+.preview{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  overflow:hidden;
+}
+.preview-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 14px;
+  background:var(--surface3);
+  border-bottom:1px solid var(--border);
+}
+.preview-bar span{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-dim)}
+.win-dots{display:flex;gap:5px}
+.win-dots i{width:8px;height:8px;border-radius:50%}
+.preview-body{padding:18px}
+.bot-bubble{
+  display:inline-block;max-width:80%;
+  padding:10px 14px;
+  border-radius:14px 14px 14px 3px;
+  font-size:13px;line-height:1.55;
+  background:var(--surface3);
+  border:1px solid var(--border);
+  color:var(--text);
+  margin-bottom:10px;
+}
+.input-mock{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:13px;color:var(--text-dim);
+  max-width:85%;
+}
+.input-mock svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;flex-shrink:0}
+.btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.opt-btn{
+  padding:7px 14px;
+  background:var(--surface3);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  font-size:12px;font-weight:600;color:var(--text-sec);
+}
+.stars{display:flex;gap:4px;margin-top:8px}
+.star{width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.star svg{width:22px;height:22px;fill:none;stroke:var(--text-dim);stroke-width:1.5}
+.star.on svg{fill:var(--amber);stroke:var(--amber)}
+
+/* ── FOOTER ── */
+.footer-cta{
+  max-width:960px;margin:0 auto 80px;padding:0 2rem;
+  position:relative;z-index:1;
+}
+.footer-inner{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  padding:52px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.footer-inner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(245,158,11,.1) 0%,transparent 60%);
+}
+.footer-inner *{position:relative}
+.footer-inner h2{
+  font-size:1.9rem;font-weight:800;letter-spacing:-.05em;
+  color:var(--text);margin-bottom:12px;
+}
+.footer-inner h2 em{font-style:normal;color:var(--amber)}
+.footer-inner p{font-size:15px;color:var(--text-sec);margin-bottom:32px;font-weight:400}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--amber);color:#0D0F12;
+  font-size:14px;font-weight:700;
+  padding:13px 28px;border-radius:var(--r-md);
+  text-decoration:none;
+  transition:all .15s;
+}
+.cta-btn:hover{background:#FCD34D;transform:translateY(-2px)}
+.cta-btn svg{width:16px;height:16px;fill:none;stroke:#0D0F12;stroke-width:2.2;stroke-linecap:round}
+
+footer{
+  border-top:1px solid var(--border);
+  padding:24px 2rem;text-align:center;
+  font-size:12px;color:var(--text-dim);
+  position:relative;z-index:1;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero>*{animation:fadeUp .5s ease both}
+.hero>*:nth-child(1){animation-delay:.05s}
+.hero>*:nth-child(2){animation-delay:.13s}
+.hero>*:nth-child(3){animation-delay:.21s}
+.hero>*:nth-child(4){animation-delay:.29s}
+.hero>*:nth-child(5){animation-delay:.37s}
+
+@media(max-width:640px){
+  .two-col{grid-template-columns:1fr}
+  .card-top{padding:22px 20px;gap:14px}
+  .card-body{padding:0 20px 24px}
+  .hero-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-inner{padding:32px 20px}
+  nav{padding:0 1rem}
+  .nav-pills{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16"><path d="M3 8h10M8 3l5 5-5 5"/></svg>
+    </div>
+    <span>FlexiChat</span>
+    <span class="nav-section">Inputs</span>
+  </a>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#texto">Texto</a>
+    <a class="nav-pill" href="#number">Number</a>
+    <a class="nav-pill" href="#email">Email</a>
+    <a class="nav-pill" href="#website">Website</a>
+    <a class="nav-pill" href="#phone">Phone</a>
+    <a class="nav-pill" href="#buttons">Buttons</a>
+    <a class="nav-pill" href="#textwait">Text w/ Wait</a>
+    <a class="nav-pill" href="#rating">Rating</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+    FlexiChat · Guía de usuario
+  </div>
+  <h1>Pasos de tipo<span class="line2">Inputs</span></h1>
+  <p class="hero-sub">Los inputs son pasos que capturan información del usuario. Cada tipo valida automáticamente el formato de la respuesta para garantizar datos limpios en tu flujo.</p>
+  <div class="hero-grid">
+    <a class="hero-chip" href="#texto">
+      <svg viewBox="0 0 24 24"><path d="M17 6H3M21 12H3M15 18H3"/></svg>Texto
+    </a>
+    <a class="hero-chip" href="#number">
+      <svg viewBox="0 0 24 24"><path d="M3 9l4-4 4 4M7 5v14M15 6h4a2 2 0 0 1 0 4h-4v4h4a2 2 0 0 1 0 4h-4"/></svg>Number
+    </a>
+    <a class="hero-chip" href="#email">
+      <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email
+    </a>
+    <a class="hero-chip" href="#website">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>Website
+    </a>
+    <a class="hero-chip" href="#phone">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92"/></svg>Phone
+    </a>
+    <a class="hero-chip" href="#buttons">
+      <svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="3"/><path d="M7 12h10"/></svg>Buttons
+    </a>
+    <a class="hero-chip" href="#textwait">
+      <svg viewBox="0 0 24 24"><path d="M17 6H3M21 12H3"/><circle cx="18" cy="18" r="4"/><path d="M18 16v2l1 1"/></svg>Text w/ Wait
+    </a>
+    <a class="hero-chip" href="#rating">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Rating
+    </a>
+  </div>
+</section>
+
+<section class="hero-video-container hero">
+  <div class="video-glow"></div>
+  <div class="video-frame">
+    <div class="video-badge">
+      <span></span> Lección en curso
+    </div>
+    <video controls poster="inputs.mp4#t=0.1">
+      <source src="inputs.mp4" type="video/mp4">
+      Tu navegador no soporta el elemento de video.
+    </video>
+  </div>
+</section>
+
+
+<!-- ═══════════ 1 · TEXTO ═══════════ -->
+<div class="section" id="texto">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(59,130,246,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(59,130,246,.12),transparent 70%)"></div>
+    <div class="card-top::after" style="background:var(--blue)"></div>
+    <div class="icon-box" style="background:var(--blue-glow);border:1px solid rgba(59,130,246,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--blue)"><path d="M17 6H3M21 12H3M15 18H3"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.25)">
+        Input · Texto
+      </div>
+      <h2 style="color:var(--blue)">Texto</h2>
+      <p>Captura cualquier respuesta escrita libre del usuario.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(59,130,246,.15)">
+    <div class="desc-block" style="border-color:var(--blue);background:rgba(59,130,246,.05)">
+      Se usa cuando se espera una <strong>respuesta de texto libre</strong> de parte del cliente. Es el input más versátil del flujo: acepta cualquier cadena de caracteres sin validación de formato. Ideal para capturar nombres, comentarios, descripciones o cualquier campo abierto donde el usuario deba escribir con sus propias palabras.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Capturar el nombre del usuario</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Recoger comentarios o feedback</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Pedir descripción de un problema</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Cualquier campo de texto abierto</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Comportamiento</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Sin validación de formato</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Acepta letras, números y símbolos</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Guarda respuesta como variable</li>
+          <li><span class="li-dot" style="background:var(--blue)"></span>Continúa el flujo al recibir respuesta</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(59,130,246,.12);color:var(--blue)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Haz clic en <strong>+ Agregar paso</strong>, ve a la sección <strong>Inputs</strong> y selecciona <strong>Texto</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(59,130,246,.12);color:var(--blue)">2</div>
+        <div class="step-content"><h4>Define el nombre de la variable</h4><p>Asigna un nombre descriptivo a la variable donde se guardará la respuesta, por ejemplo <code>nombre_cliente</code>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(59,130,246,.12);color:var(--blue)">3</div>
+        <div class="step-content"><h4>Usa la variable en el flujo</h4><p>Reutiliza la respuesta en pasos siguientes con <code>{{nombre_cliente}}</code> para personalizar el mensaje.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Coloca siempre un <em>Paso de texto</em> justo antes del input para hacerle la pregunta al usuario: <em>"¿Cuál es tu nombre?"</em>. El input en sí no muestra ningún mensaje, solo espera la respuesta.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Cuál es tu nombre completo?</div><br>
+        <div class="input-mock" style="border-color:rgba(59,130,246,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--blue)"><path d="M17 6H3M21 12H3M15 18H3"/></svg>
+          Escribe tu respuesta...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 2 · NUMBER ═══════════ -->
+<div class="section" id="number">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(139,92,246,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(139,92,246,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--violet-glow);border:1px solid rgba(139,92,246,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--violet)"><path d="M3 9l4-4 4 4M7 5v14M15 6h4a2 2 0 0 1 0 4h-4v4h4a2 2 0 0 1 0 4h-4"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(139,92,246,.12);color:var(--violet);border:1px solid rgba(139,92,246,.25)">
+        Input · Number
+      </div>
+      <h2 style="color:var(--violet)">Number</h2>
+      <p>Captura valores numéricos y valida automáticamente el formato.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(139,92,246,.15)">
+    <div class="desc-block" style="border-color:var(--violet);background:rgba(139,92,246,.05)">
+      Se usa cuando se espera una <strong>respuesta de tipo número</strong> de parte del cliente. El sistema valida automáticamente que la entrada sea un valor numérico válido antes de continuar el flujo. Si el usuario escribe texto u otro formato no numérico, el chatbot solicitará una corrección automáticamente.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Pedir una edad o año de nacimiento</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Cantidad de personas o productos</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Presupuesto o monto estimado</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Número de pedido o referencia</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Validación</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Solo acepta dígitos numéricos</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Admite decimales según configuración</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Rechaza texto y caracteres especiales</li>
+          <li><span class="li-dot" style="background:var(--violet)"></span>Solicita corrección si el formato es inválido</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(139,92,246,.12);color:var(--violet)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>En el editor, selecciona <strong>+ Agregar paso → Inputs → Number</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(139,92,246,.12);color:var(--violet)">2</div>
+        <div class="step-content"><h4>Nombra la variable</h4><p>Define un nombre claro como <code>cantidad_personas</code> o <code>presupuesto</code> para usar el valor más adelante.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(139,92,246,.12);color:var(--violet)">3</div>
+        <div class="step-content"><h4>Úsalo en condiciones</h4><p>El valor numérico puede usarse en bloques de lógica condicional para bifurcar el flujo según el número ingresado.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Indica claramente el rango esperado en el mensaje previo: <em>"Ingresa un número entre 1 y 10"</em>. Esto reduce errores y mejora la experiencia del usuario.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Cuántas personas asistirán al evento?</div><br>
+        <div class="input-mock" style="border-color:rgba(139,92,246,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--violet)"><path d="M3 9l4-4 4 4M7 5v14M15 6h4a2 2 0 0 1 0 4h-4v4h4a2 2 0 0 1 0 4h-4"/></svg>
+          Solo números (ej: 5)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 3 · EMAIL ═══════════ -->
+<div class="section" id="email">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(34,197,94,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--green-glow);border:1px solid rgba(34,197,94,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--green)"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)">
+        Input · Email
+      </div>
+      <h2 style="color:var(--green)">Email</h2>
+      <p>Captura y valida automáticamente direcciones de correo electrónico.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(34,197,94,.15)">
+    <div class="desc-block" style="border-color:var(--green);background:rgba(34,197,94,.05)">
+      Se usa cuando se espera una <strong>respuesta de tipo correo electrónico</strong>. El sistema verifica automáticamente que el texto ingresado tenga el formato válido de un email (<code>usuario@dominio.com</code>). Si el formato es incorrecto, el chatbot pide al usuario que corrija su respuesta antes de continuar.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--green)"></span>Registro de nuevos usuarios</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>Envío de cotizaciones o presupuestos</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>Suscripción a newsletter</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>Confirmaciones y notificaciones</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Validación</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--green)"></span>Requiere formato <code>@</code> y dominio</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>Verifica extensión válida (.com, .net…)</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>No verifica si el correo existe realmente</li>
+          <li><span class="li-dot" style="background:var(--green)"></span>Solicita corrección si el formato es inválido</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(34,197,94,.12);color:var(--green)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Email</strong> en el editor de flujo.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(34,197,94,.12);color:var(--green)">2</div>
+        <div class="step-content"><h4>Asigna la variable</h4><p>Nombra la variable como <code>email_cliente</code> para identificarla fácilmente y reutilizarla en pasos siguientes.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(34,197,94,.12);color:var(--green)">3</div>
+        <div class="step-content"><h4>Conecta con integraciones</h4><p>Usa la variable <code>{{email_cliente}}</code> para enviar correos automáticos, registrar en CRM o exportar datos.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Incluye un ejemplo en el mensaje previo: <em>"Ingresa tu correo electrónico (ej: usuario@gmail.com)"</em>. Reduce la tasa de errores de formato considerablemente.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿A qué correo te enviamos la confirmación?</div><br>
+        <div class="input-mock" style="border-color:rgba(34,197,94,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--green)"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          usuario@dominio.com
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 4 · WEBSITE ═══════════ -->
+<div class="section" id="website">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(6,182,212,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(6,182,212,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--cyan-glow);border:1px solid rgba(6,182,212,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--cyan)"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(6,182,212,.12);color:var(--cyan);border:1px solid rgba(6,182,212,.25)">
+        Input · Website
+      </div>
+      <h2 style="color:var(--cyan)">Website</h2>
+      <p>Captura y valida URLs de sitios web con formato correcto.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(6,182,212,.15)">
+    <div class="desc-block" style="border-color:var(--cyan);background:rgba(6,182,212,.05)">
+      Se usa cuando se espera una <strong>respuesta de tipo sitio web (URL)</strong>. El sistema verifica que el texto ingresado tenga el formato de una URL válida, incluyendo el protocolo (<code>https://</code>) y el dominio. Si el formato no es correcto, el chatbot pedirá que se ingrese nuevamente.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Solicitar la web de una empresa</li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Pedir enlace a un portafolio o perfil</li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Recopilar redes sociales o landing pages</li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Referenciar un producto o recurso en línea</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Validación</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Requiere formato URL válido</li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Acepta <code>http://</code> y <code>https://</code></li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>Verifica estructura del dominio</li>
+          <li><span class="li-dot" style="background:var(--cyan)"></span>No verifica si el sitio está activo</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(6,182,212,.12);color:var(--cyan)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Website</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(6,182,212,.12);color:var(--cyan)">2</div>
+        <div class="step-content"><h4>Asigna la variable</h4><p>Nombra la variable como <code>web_empresa</code> o <code>url_portafolio</code> para referenciarlo más adelante.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(6,182,212,.12);color:var(--cyan)">3</div>
+        <div class="step-content"><h4>Usa la URL en el flujo</h4><p>Puedes mostrar la URL capturada en un mensaje de confirmación usando <code>{{web_empresa}}</code>.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Indica el formato esperado en el mensaje previo: <em>"Ingresa la URL completa de tu sitio web (ej: https://tuempresa.com)"</em>.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Cuál es la URL de tu sitio web?</div><br>
+        <div class="input-mock" style="border-color:rgba(6,182,212,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--cyan)"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 1 0 20M12 2a14.5 14.5 0 0 0 0 20M2 12h20"/></svg>
+          https://tusitio.com
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 5 · PHONE ═══════════ -->
+<div class="section" id="phone">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(249,115,22,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(249,115,22,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--orange-glow);border:1px solid rgba(249,115,22,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--orange)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.25)">
+        Input · Phone
+      </div>
+      <h2 style="color:var(--orange)">Phone</h2>
+      <p>Captura números de teléfono con código de país incluido.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(249,115,22,.15)">
+    <div class="desc-block" style="border-color:var(--orange);background:rgba(249,115,22,.05)">
+      Se usa cuando se espera una <strong>respuesta de tipo número de teléfono</strong>. Este input valida que la respuesta incluya obligatoriamente el <strong>código de país</strong> (por ejemplo <code>+51</code> para Perú, <code>+34</code> para España, <code>+1</code> para Estados Unidos) seguido del número local. Es el estándar internacional para asegurar que el número sea contactable desde cualquier lugar.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Capturar número para llamadas o SMS</li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Contacto de seguimiento comercial</li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Registro de usuarios con WhatsApp</li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Verificación de identidad por teléfono</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Formato requerido</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Debe incluir <code>+</code> y código de país</li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Ej: <code>+51 987 654 321</code></li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Ej: <code>+34 612 345 678</code></li>
+          <li><span class="li-dot" style="background:var(--orange)"></span>Rechaza números sin código de país</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(249,115,22,.12);color:var(--orange)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Phone</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(249,115,22,.12);color:var(--orange)">2</div>
+        <div class="step-content"><h4>Define la variable</h4><p>Nombra la variable como <code>telefono_cliente</code> para usarlo en integraciones de WhatsApp, CRM o notificaciones.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(249,115,22,.12);color:var(--orange)">3</div>
+        <div class="step-content"><h4>Indica el formato en el mensaje</h4><p>En el paso de texto previo, especifica que debe incluir el código de país: <em>"Incluye el código de tu país (ej: +51)"</em>.</p></div>
+      </div>
+    </div>
+    <div class="warn">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p><strong>Importante:</strong> El código de país es obligatorio. Si el usuario escribe solo el número local sin el prefijo <code>+</code>, el sistema lo rechazará y pedirá que ingrese el formato correcto.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Cuál es tu número de WhatsApp? Incluye el código de tu país (ej: +51 987 654 321)</div><br>
+        <div class="input-mock" style="border-color:rgba(249,115,22,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--orange)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 12a19.79 19.79 0 0 1-3-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92"/></svg>
+          +51 987 654 321
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 6 · BUTTONS ═══════════ -->
+<div class="section" id="buttons">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(245,158,11,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(245,158,11,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--amber-glow);border:1px solid rgba(245,158,11,.3)">
+      <svg viewBox="0 0 24 24" stroke="var(--amber)"><rect x="3" y="8" width="18" height="8" rx="3"/><path d="M7 12h10"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:var(--amber-glow);color:var(--amber);border:1px solid rgba(245,158,11,.3)">
+        Input · Buttons
+      </div>
+      <h2 style="color:var(--amber)">Buttons</h2>
+      <p>Presenta opciones de respuesta rápida como botones clickeables.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(245,158,11,.2)">
+    <div class="desc-block" style="border-color:var(--amber);background:var(--amber-glow2)">
+      Se usa para <strong>brindar opciones de respuesta rápida</strong> al usuario mediante botones. En lugar de que el usuario escriba libremente, selecciona una de las opciones predefinidas con un solo clic. Ideal para guiar el flujo de conversación con respuestas controladas y evitar entradas inesperadas.
+    </div>
+    <div class="limits">
+      <div class="limit-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="3"/></svg>
+        Máximo <span style="color:var(--amber)">&nbsp;9 opciones</span>
+      </div>
+      <div class="limit-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><path d="M17 6H3M13 12H3"/></svg>
+        Máximo <span style="color:var(--amber)">&nbsp;20 caracteres</span>&nbsp;por botón
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Preguntas de sí / no</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Selección de categoría o servicio</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Menú de opciones del chatbot</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Elección de horario o turno</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Confirmación de datos antes de enviar</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Límites y reglas</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Mínimo 2, máximo 9 botones</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Cada botón: máx. 20 caracteres</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Solo una opción seleccionable</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>El valor del botón se guarda en variable</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Permite bifurcar el flujo por opción</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Buttons</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">2</div>
+        <div class="step-content"><h4>Define las opciones</h4><p>Escribe cada opción de botón. Recuerda: máximo <strong>9 botones</strong> y <strong>20 caracteres</strong> por texto. Sé breve y claro: <em>"Sí, confirmar"</em>, <em>"No, cancelar"</em>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">3</div>
+        <div class="step-content"><h4>Conecta cada botón</h4><p>Desde la salida de cada botón arrastra un conector hacia el siguiente paso correspondiente para bifurcar el flujo según la elección.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Usa textos cortos y directos en los botones. Evita palabras ambiguas. Máximo 3–4 palabras por botón es lo ideal para que el usuario tome la decisión rápido.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Qué servicio te interesa?</div>
+        <div class="btn-row">
+          <div class="opt-btn">Diseño web</div>
+          <div class="opt-btn">Marketing</div>
+          <div class="opt-btn">Consultoría</div>
+          <div class="opt-btn">Otro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 7 · TEXT W/ WAIT ═══════════ -->
+<div class="section" id="textwait">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(244,63,94,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(244,63,94,.12),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--rose-glow);border:1px solid rgba(244,63,94,.25)">
+      <svg viewBox="0 0 24 24" stroke="var(--rose)"><path d="M17 6H3M21 12H3"/><circle cx="18" cy="18" r="4"/><path d="M18 16v2l1 1"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:rgba(244,63,94,.12);color:var(--rose);border:1px solid rgba(244,63,94,.25)">
+        Input · Text w/ Wait
+      </div>
+      <h2 style="color:var(--rose)">Text w/ Wait</h2>
+      <p>Captura texto libre y aplica un tiempo de espera configurable.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(244,63,94,.15)">
+    <div class="desc-block" style="border-color:var(--rose);background:rgba(244,63,94,.05)">
+      Se usa cuando se espera una <strong>respuesta de tipo texto</strong> y a la vez se necesita aplicar un <strong>tiempo de espera</strong> antes de continuar el flujo. A diferencia del paso de texto normal, este input aguarda un período configurable luego de recibir la respuesta —o en ausencia de ella— antes de avanzar. Útil para dar tiempo al usuario a completar su respuesta o para gestionar respuestas que pueden llegar en varios mensajes.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Respuestas largas enviadas en partes</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Dar tiempo al usuario antes de continuar</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Esperar confirmación con pausa natural</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Formularios donde el usuario puede tardar</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Comportamiento</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Acepta texto libre sin validación</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Aplica un temporizador configurable</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Continúa al vencer el tiempo de espera</li>
+          <li><span class="li-dot" style="background:var(--rose)"></span>Guarda la última respuesta como variable</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(244,63,94,.12);color:var(--rose)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Text w/ Wait</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(244,63,94,.12);color:var(--rose)">2</div>
+        <div class="step-content"><h4>Configura el tiempo de espera</h4><p>Define en segundos cuánto tiempo esperará el sistema antes de continuar. Ajusta según el tipo de respuesta esperada.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:rgba(244,63,94,.12);color:var(--rose)">3</div>
+        <div class="step-content"><h4>Define qué ocurre después</h4><p>Conecta la salida del paso al siguiente bloque del flujo que se ejecutará una vez vencido el tiempo de espera.</p></div>
+      </div>
+    </div>
+    <div class="warn">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p><strong>Importante:</strong> No abuses de tiempos de espera muy largos. Un tiempo excesivo puede frustrar al usuario si siente que el chatbot no responde. Usa tiempos cortos (5–15 segundos) salvo que el caso lo justifique.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">Cuéntanos con detalle cuál es tu consulta. Tómate el tiempo que necesites.</div><br>
+        <div class="input-mock" style="border-color:rgba(244,63,94,.4)">
+          <svg viewBox="0 0 24 24" stroke="var(--rose)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Escribe tu mensaje... (esperando 10s)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ 8 · RATING ═══════════ -->
+<div class="section" id="rating">
+<div class="card">
+  <div class="card-top" style="background:linear-gradient(135deg,rgba(245,158,11,.06) 0%,transparent 60%)">
+    <div class="bg-glow" style="background:radial-gradient(circle,rgba(245,158,11,.15),transparent 70%)"></div>
+    <div class="icon-box" style="background:var(--amber-glow);border:1px solid rgba(245,158,11,.3)">
+      <svg viewBox="0 0 24 24" stroke="var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="card-meta">
+      <div class="input-tag" style="background:var(--amber-glow);color:var(--amber);border:1px solid rgba(245,158,11,.3)">
+        Input · Rating
+      </div>
+      <h2 style="color:var(--amber)">Rating</h2>
+      <p>Captura calificaciones de encuestas mediante estrellas u opciones numéricas.</p>
+    </div>
+  </div>
+  <div class="card-body" style="border-color:rgba(245,158,11,.2)">
+    <div class="desc-block" style="border-color:var(--amber);background:var(--amber-glow2)">
+      Se usa cuando se espera una <strong>respuesta de tipo calificación</strong> para una encuesta o evaluación. El usuario responde eligiendo una puntuación dentro de una escala predefinida (normalmente de 1 a 5 estrellas). La calificación se guarda como valor numérico en una variable para su posterior análisis o uso en el flujo.
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Cuándo usarlo</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Encuestas de satisfacción del cliente</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Calificación de productos o servicios</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Evaluación de atención al cliente</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>NPS (Net Promoter Score)</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Valoración de una experiencia</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Comportamiento</h3>
+        <ul>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Escala visual de estrellas (1–5)</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Guarda el valor numérico de la calificación</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Permite bifurcar el flujo por puntuación</li>
+          <li><span class="li-dot" style="background:var(--amber)"></span>Un solo clic para seleccionar y continuar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="steps-title">Cómo añadirlo al flujo</div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">1</div>
+        <div class="step-content"><h4>Agrega el paso</h4><p>Selecciona <strong>+ Agregar paso → Inputs → Rating</strong>.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">2</div>
+        <div class="step-content"><h4>Define la pregunta previa</h4><p>Añade un paso de texto antes con la pregunta de la encuesta: <em>"¿Cómo calificarías nuestra atención del 1 al 5?"</em></p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num" style="background:var(--amber-glow);color:var(--amber)">3</div>
+        <div class="step-content"><h4>Usa la calificación en el flujo</h4><p>Con la variable guardada puedes enviar respuestas diferenciadas: un agradecimiento especial para calificaciones altas, o un mensaje de disculpa y mejora para las bajas.</p></div>
+      </div>
+    </div>
+    <div class="tip">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <p><strong>Consejo:</strong> Combina el paso de Rating con una bifurcación condicional para enviar mensajes personalizados según la puntuación. Por ejemplo, si calificación es menor a 3, activa un flujo de atención al cliente proactivo.</p>
+    </div>
+    <div class="preview">
+      <div class="preview-bar">
+        <div class="win-dots"><i style="background:#F43F5E"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i></div>
+        <span>Vista del usuario</span><span></span>
+      </div>
+      <div class="preview-body">
+        <div class="bot-bubble">¿Cómo calificarías tu experiencia con nosotros hoy?</div>
+        <div class="stars">
+          <div class="star on"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="star on"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="star on"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="star on"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer-cta">
+  <div class="footer-inner">
+    <h2>Captura datos <em>perfectos</em><br>desde el primer mensaje</h2>
+    <p>Combina los inputs con los pasos de texto, imagen y vídeo para construir flujos de conversación completos y profesionales.</p>
+    <a class="cta-btn" href="flexichat-tutorial-pasos.html">
+      Ver guía de pasos de contenido
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <p>FlexiChat · Guía de Inputs del flujo de trabajo · 2025</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.06 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+const sections = document.querySelectorAll('.section');
+const pills = document.querySelectorAll('.nav-pill');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id });
+  pills.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
+}, {passive:true});
+</script>
+</body>
+</html>
